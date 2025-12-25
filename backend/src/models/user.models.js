@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt"
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -24,6 +25,11 @@ const userSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-const User = mongoose.model("User",userSchema)
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) return; //avoids double hashing
+    this.password = await bcrypt.hash(this.password, 10)
+})
+
+const User = mongoose.model("User", userSchema)
 
 export default User
