@@ -10,7 +10,7 @@ const protect = asyncHandler(async (req, res, next) => {
     const token = header.split(" ")[1]
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-    const user = User.findById(decoded.userId)
+    const user = await User.findById(decoded.userId)
     if (!user) throw new AppError("User not found", 403)
 
     req.user = user
