@@ -8,9 +8,10 @@ const projectSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    createdBy:{
+    owner:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: true
     },
     members: [{
         type: mongoose.Schema.Types.ObjectId,
