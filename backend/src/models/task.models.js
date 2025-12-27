@@ -1,38 +1,44 @@
 import mongoose from "mongoose";
 //error chances
 const taskSchema = new mongoose.Schema({
-    title:{
+    title: {
         type: String,
         required: true
     },
-    description:{
+    description: {
         type: String,
         // required: true
     },
-    status:{
+    status: {
         type: String,
-        enum:["todo","in_progress","done"],
+        enum: ["todo", "in_progress", "done"],
+        default: "todo",
+        required: true
     },
-    priority:{
+    priority: {
         type: String,
-        enum:["high","medium","low"],
+        enum: ["high", "medium", "low"],
+        default: "medium"
     },
-    projectId:{
+    project: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Project" 
+        ref: "Project",
+        required: true
     },
-    asignedTo:{
+    assignedTo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: true
     },
-    createdBy:{
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: true
     },
-    dueDate:{
+    dueDate: {
         type: Date,
     }
-},{timestamps: true})
+}, { timestamps: true })
 
 const Task = mongoose.model("Task", taskSchema)
 
