@@ -13,7 +13,7 @@ export const createTask = asyncHandler(async (req, res, next) => {
 
     const project = await Project.findById(req.params.projectId)
     if (!project)
-        throw next(new AppError("Project not Found", 404))
+        throw new AppError("Project not Found", 404)
 
     //authorization
     if (
@@ -25,7 +25,7 @@ export const createTask = asyncHandler(async (req, res, next) => {
 
     const assignee = await User.findById(assignedTo)
     if (!assignee)
-        throw next(new AppError("Assignee not found", 404))
+        throw new AppError("Assignee not found", 404)
 
     if (!project.members.includes(assignee._id)) {
         return next(new AppError("User is not a project member", 403))
@@ -45,4 +45,63 @@ export const createTask = asyncHandler(async (req, res, next) => {
         status: "success",
         data: { task }
     })
+})
+
+export const getTasks = asyncHandler(async (req, res, next) => {
+    const { projectId } = req.params
+    const role = req.user.role
+    const project = await Project.findById(req.params.projectId)
+    if (!project)
+        return next(new AppError("Project not found", 404))
+
+    if (role !== 'admin' && project.owner.toString() !== req.user._id.toString() && !project.members.map(id => id.toString()).includes(req.user._id.toString()))
+        return next(new AppError("Not authorized", 403))
+
+    let tasks
+    if (role === "admin" || role === "manager")
+        tasks = await Task.find({
+            project: projectId
+        })
+    else
+        tasks = await Task.find({
+            project: projectId,
+            assignedTo: req.user._id
+        })
+
+    res.status(200).json({
+        status: "success",
+        results: tasks.length,
+        data: { tasks }
+    })
+})
+
+export const updateTask = asyncHandler(async (req, res, next) => {
+    const { taskId } = req.params
+    const role = req.user.role
+    const user = req.user._id
+
+    const { title, assignedTo, description, priority, dueDate } = req.body
+
+    const task = await Task.findById(req.params.taskId)
+    if (!task)
+        throw new AppError("Task not found", 404)
+
+    const project = await Project.findById(task.project)
+    if(!project) 
+        throw new AppError("Project not found",404)
+
+    const owner = project.owner.toString() === user.toString()
+
+    if(role !== "admin" && !owner && project.members.map(id=>id.toString()).includes(user.toString()))
+        throw new AppError("Not Authorized",403)
+
+    const updatedTask = await Task.findByIdAndUpdate(
+        req.params.taskId,
+        req.body,
+        {new: true, runValidators: true}
+    )
+
+    //Auth based updation
+        
+
 })
