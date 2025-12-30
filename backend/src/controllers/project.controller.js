@@ -17,6 +17,34 @@ export const createProject = asyncHandler(async (req, res, next) => {
     })
 })
 
+export const addProjectMembers = asyncHandler(async (req, res, next) => {
+    const { projectId } = req.params
+    const { userId, members } = req.body
+    if (members)
+        return next(new AppError("Only userId is accepted", 400))
+
+    if (!userId)
+        return next(new AppError("UserId is required", 400))
+
+    const project = await Project.findById(projectId)
+    if (!project)
+        return next(new AppError("Project not found", 404))
+
+    if (req.user.role !== "admin" && project.owner.toString() !== req.user._id.toString())
+        return next(new AppError("Not Authorized", 403))
+
+    project.members.addToSet(userId)
+    await project.save()
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            projectId: project._id,
+            members: project.members
+        }
+    })
+})
+
 export const getMyProjects = asyncHandler(async (req, res, next) => {
     const role = req.user.role
     let projects
@@ -47,7 +75,7 @@ export const updateProject = asyncHandler(async (req, res, next) => {
     if (!project)
         throw next(new AppError("Project does not exist", 404))
 
-    if (role !== 'admin' && project.owner.toString() !== req.user._id.toString())
+    if (role !== "admin" && project.owner.toString() !== req.user._id.toString())
         throw new AppError("Not Authorized to update this project", 403)
 
     delete req.body.owner;

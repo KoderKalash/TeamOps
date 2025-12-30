@@ -9,3 +9,5 @@ router
     .route("/:projectId/tasks")
     .post(protect,restrictTo("admin","manager"),createTask)
     .get(protect,getTasks)
+
+export default router

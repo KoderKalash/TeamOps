@@ -7,6 +7,8 @@ const router = express.Router()
 
 router
     .route("/:taskId")
-    .patch(protect,restrictTo("admin","manager"),updateTask)
+    .patch(protect,updateTask)
     .delete(protect,restrictTo("admin","manager"),deleteTask)
+
+
 export default router

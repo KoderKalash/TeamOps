@@ -3,7 +3,8 @@ import {
     createProject,
     getMyProjects,
     updateProject,
-    deleteProject
+    deleteProject,
+    addProjectMembers
 } from "../controllers/project.controller.js"
 import protect from "../middleware/auth.middleware.js"
 import restrictTo from "../middleware/role.middleware.js"
@@ -19,5 +20,7 @@ router
     .route('/:id')
     .patch(protect,restrictTo('admin','manager'),updateProject)
     .delete(protect,restrictTo('admin','manager'),deleteProject)
+
+router.patch('/:projectId/members',protect,restrictTo('admin','manager'),addProjectMembers)
 
 export default router
