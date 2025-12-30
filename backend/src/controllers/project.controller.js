@@ -76,11 +76,7 @@ export const deleteProject = asyncHandler(async (req, res, next) => {
     if (role !== 'admin' && project.owner.toString() !== req.user._id.toString())
         throw new AppError("Not Authorized to delete this project", 403)
 
-    //delete logic
     await project.deleteOne()
 
-    res.status(204).json({
-        status: "success",
-        data: null
-    })
+    res.status(204).end()
 })
