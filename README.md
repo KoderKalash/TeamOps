@@ -259,9 +259,7 @@ We welcome contributions from the community. Please read our [Contributing Guide
 
 For questions, issues, or feature requests:
 
-- 📧 Email: support@teamops.io
-- 💬 Discussions: [GitHub Discussions](https://github.com/your-org/teamops/discussions)
-- 🐛 Issues: [GitHub Issues](https://github.com/your-org/teamops/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/KoderKalash/TeamOps/issues)
 
 ---
 
