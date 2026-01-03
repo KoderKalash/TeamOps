@@ -40,6 +40,14 @@ const taskSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
+//search idx
+taskSchema.index({title})
+taskSchema.index({description})
+
+//sort idx
+taskSchema.index({"priority": "high"})
+taskSchema.index({"createdAt": -1})
+
 const Task = mongoose.model("Task", taskSchema)
 
 export default Task

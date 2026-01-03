@@ -4,7 +4,7 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-const PORT = process.env.PORT //why undefined but server still runs on 8000?
+const PORT = process.env.PORT 
 
 const server = async () => {
     await dbConnect()
