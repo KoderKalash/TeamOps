@@ -1,24 +1,29 @@
 import mongoose from "mongoose";
 //error chances
-const projectSchema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     description: {
-        type: String
+      type: String,
     },
-    owner:{
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    members: [
+      {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true
-    },
-    members: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    }]
-}, { timestamps: true })
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
-const Project = mongoose.model("Project", projectSchema)
+const Project = mongoose.model("Project", projectSchema);
 
-export default Project
+export default Project;

@@ -3,7 +3,7 @@ import protect from "../middleware/auth.middleware.js";
 import User from "../models/user.models.js";
 import restrictTo from "../middleware/role.middleware.js";
 
-const router = express.Router()
+const router = express.Router();
 
 /*router.get("/users",protect,restrictTo("admin"),async (req, res)=>{
     try {
@@ -15,11 +15,11 @@ const router = express.Router()
     }})
         */
 
-router.get("/health",(req,res) => {
-    res.status(200).json({
-        status: "ok",
-        uptime: process.uptime()
-    })
-})
+router.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    uptime: process.uptime(),
+  });
+});
 
-export default router
+export default router;

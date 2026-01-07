@@ -74,16 +74,17 @@ TeamOps is a **backend-only REST API** designed for enterprise-grade project and
 
 ### Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Runtime | Node.js |
-| Framework | Express.js |
-| Database | MongoDB |
-| ODM | Mongoose |
+| Layer          | Technology         |
+| -------------- | ------------------ |
+| Runtime        | Node.js            |
+| Framework      | Express.js         |
+| Database       | MongoDB            |
+| ODM            | Mongoose           |
 | Authentication | JWT (jsonwebtoken) |
-| Encryption | bcrypt |
+| Encryption     | bcrypt             |
 
 ### Project Structure
+
 ```text
 src/
 ├── controllers/      # Business logic and request handlers
@@ -105,6 +106,7 @@ TeamOps implements a **multi-layered authorization system**:
 4. **Field-Level Permissions** — Granular control over data mutations
 
 This architecture prevents:
+
 - Unauthorized cross-project access
 - Privilege escalation attacks
 - Unauthorized data mutations
@@ -116,29 +118,29 @@ This architecture prevents:
 
 ### Authentication
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/auth/signup` | Create new user account |
-| `POST` | `/api/auth/login` | Authenticate and receive JWT |
+| Method | Endpoint           | Description                  |
+| ------ | ------------------ | ---------------------------- |
+| `POST` | `/api/auth/signup` | Create new user account      |
+| `POST` | `/api/auth/login`  | Authenticate and receive JWT |
 
 ### Projects
 
-| Method | Endpoint | Description | Authorization |
-|--------|----------|-------------|---------------|
-| `POST` | `/api/projects` | Create new project | Manager, Admin |
-| `GET` | `/api/projects` | List accessible projects | All roles (filtered by access) |
-| `PATCH` | `/api/projects/:id` | Update project details | Owner, Admin |
-| `DELETE` | `/api/projects/:id` | Delete project | Owner, Admin |
-| `PATCH` | `/api/projects/:projectId/members` | Add project members | Owner, Admin |
+| Method   | Endpoint                           | Description              | Authorization                  |
+| -------- | ---------------------------------- | ------------------------ | ------------------------------ |
+| `POST`   | `/api/projects`                    | Create new project       | Manager, Admin                 |
+| `GET`    | `/api/projects`                    | List accessible projects | All roles (filtered by access) |
+| `PATCH`  | `/api/projects/:id`                | Update project details   | Owner, Admin                   |
+| `DELETE` | `/api/projects/:id`                | Delete project           | Owner, Admin                   |
+| `PATCH`  | `/api/projects/:projectId/members` | Add project members      | Owner, Admin                   |
 
 ### Tasks
 
-| Method | Endpoint | Description | Authorization |
-|--------|----------|-------------|---------------|
-| `POST` | `/api/projects/:projectId/tasks` | Create task in project | Project members |
-| `GET` | `/api/projects/:projectId/tasks` | List project tasks | Project members |
-| `PATCH` | `/api/tasks/:taskId` | Update task | Role-dependent |
-| `DELETE` | `/api/tasks/:taskId` | Delete task | Task creator, Admin |
+| Method   | Endpoint                         | Description            | Authorization       |
+| -------- | -------------------------------- | ---------------------- | ------------------- |
+| `POST`   | `/api/projects/:projectId/tasks` | Create task in project | Project members     |
+| `GET`    | `/api/projects/:projectId/tasks` | List project tasks     | Project members     |
+| `PATCH`  | `/api/tasks/:taskId`             | Update task            | Role-dependent      |
+| `DELETE` | `/api/tasks/:taskId`             | Delete task            | Task creator, Admin |
 
 ---
 
@@ -151,6 +153,7 @@ This architecture prevents:
 - npm or yarn
 
 ### Installation
+
 ```bash
 # Clone the repository
 git clone https://github.com/KoderKalash/TeamOps.git
@@ -169,6 +172,7 @@ npm run dev
 ```
 
 ### Environment Variables
+
 ```env
 PORT=8000
 MONGODB_URI=mongodb://localhost:27017/teamops
@@ -243,7 +247,7 @@ NODE_ENV=development
 
 ## Contributing
 
-We welcome contributions from the community. 
+We welcome contributions from the community.
 
 ### Development Workflow
 

@@ -1,14 +1,13 @@
-import express from "express"
-import { deleteTask, updateTask } from "../controllers/task.controller.js"
-import protect from "../middleware/auth.middleware.js"
-import restrictTo from "../middleware/role.middleware.js"
+import express from "express";
+import { deleteTask, updateTask } from "../controllers/task.controller.js";
+import protect from "../middleware/auth.middleware.js";
+import restrictTo from "../middleware/role.middleware.js";
 
-const router = express.Router()
+const router = express.Router();
 
 router
-    .route("/:taskId")
-    .patch(protect,updateTask)
-    .delete(protect,restrictTo("admin","manager"),deleteTask)
+  .route("/:taskId")
+  .patch(protect, updateTask)
+  .delete(protect, restrictTo("admin", "manager"), deleteTask);
 
-
-export default router
+export default router;
