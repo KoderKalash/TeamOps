@@ -13,11 +13,11 @@ class APIFeatures {
     const queryObj = { ...this.queryString };
 
     const excludedFields = ["page", "sort", "search", "limit"];
-    excludedFields.forEach(el => delete queryObj[el]);
+    excludedFields.forEach((el) => delete queryObj[el]);
 
     const mongoFilter = {};
 
-    Object.keys(queryObj).forEach(key => {
+    Object.keys(queryObj).forEach((key) => {
       // handles createdAt[gte]
       if (key.includes("[")) {
         const field = key.split("[")[0];
@@ -42,21 +42,25 @@ class APIFeatures {
     return this;
   }
 
-  search() {
-    if (!this.queryString.search) return this;
+  search(field = []) {
+    if (!this.queryString.search || field.length === 0) return this;
 
+    const regex = {
+      $or: field.map(field => ({
+        [field]: { $regex: this.queryString.search, $options: "i" }
+      }))
+    }
+
+    this.query = this.query.find(regex);
+
+    /*
     if (process.env.SEARCH_STRATEGY === "text") {
       this.query = this.query.find({
-        $text: { $search: this.queryString.search }
+        $text: { $search: this.queryString.search },
       });
     } else {
-      this.query = this.query.find({
-        $or: [
-          { title: { $regex: this.queryString.search, $options: "i" } },
-          { description: { $regex: this.queryString.search, $options: "i" } },
-        ],
-      });
-    }
+      
+    }*/
 
     return this;
   }
@@ -81,4 +85,4 @@ class APIFeatures {
   }
 }
 
-export default APIFeatures
+export default APIFeatures;

@@ -44,10 +44,12 @@ const taskSchema = new mongoose.Schema(
 );
 
 //search idx
-taskSchema.index({ title: "text" });
-taskSchema.index({ description: "text" });
+taskSchema.index({ title: "text", description: "text" });
 
 //sort idx
+taskSchema.index({ project: 1 });
+taskSchema.index({ assignedTo: 1 });
+taskSchema.index({ status: 1 });
 taskSchema.index({ priority: 1 });
 taskSchema.index({ createdAt: -1 });
 

@@ -24,6 +24,12 @@ const projectSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+//search
+projectSchema.index({ name: "text", description: "text" }); //check for search
+
+//sort
+projectSchema.index({ createdAt: -1 });
+
 const Project = mongoose.model("Project", projectSchema);
 
 export default Project;

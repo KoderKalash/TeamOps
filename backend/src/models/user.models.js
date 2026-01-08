@@ -33,6 +33,14 @@ userSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, 10);
 });
 
+//search
+userSchema.index({ name: "text", email: "text" });
+
+//sort
+userSchema.index({ email: 1 });
+userSchema.index({ role: 1 });
+userSchema.index({ createdAt: -1 });
+
 const User = mongoose.model("User", userSchema);
 
 export default User;

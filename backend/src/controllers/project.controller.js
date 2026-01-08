@@ -1,6 +1,7 @@
 import AppError from "../utils/AppError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import Project from "../models/project.models.js";
+import APIFeatures from "../utils/apifeatures.js";
 
 export const createProject = asyncHandler(async (req, res, next) => {
   const owner = req.user._id;
@@ -46,17 +47,26 @@ export const addProjectMembers = asyncHandler(async (req, res, next) => {
 
 export const getMyProjects = asyncHandler(async (req, res, next) => {
   const role = req.user.role;
-  let projects;
 
-  if (role === "admin") projects = await Project.find();
-  else if (role === "manager")
-    projects = await Project.find({
-      $or: [{ owner: req.user._id }, { members: req.user._id }],
-    });
-  else
-    projects = await Project.find({
+  let baseQuery;
+  if (role === "user") {
+    baseQuery = Project.find({
       members: req.user._id,
     });
+  } else if (role === "manager") {
+    baseQuery = Project.find({
+      $or: [{ owner: req.user._id }, { members: req.user._id }],
+    }).distinct("_id"); //remove duplicate results
+  } else {
+    baseQuery = Project.find();
+  }
+  const features = new APIFeatures(baseQuery, req.query)
+    .filter()
+    .search(["name","description"])
+    .sort()
+    .paginate();
+
+  const projects = await features.query;
 
   res.status(200).json({
     status: "success",
