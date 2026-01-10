@@ -80,7 +80,7 @@ export const getTasks = asyncHandler(async (req, res, next) => {
 
   const features = new APIFeatures(baseQuery, req.query)
     .filter()
-    .search(["text","description"])
+    .search(["title", "description"])
     .sort()
     .paginate();
 

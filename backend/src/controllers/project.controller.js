@@ -62,7 +62,7 @@ export const getMyProjects = asyncHandler(async (req, res, next) => {
   }
   const features = new APIFeatures(baseQuery, req.query)
     .filter()
-    .search(["name","description"])
+    .search(["name", "description"])
     .sort()
     .paginate();
 

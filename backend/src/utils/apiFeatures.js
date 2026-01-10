@@ -46,10 +46,10 @@ class APIFeatures {
     if (!this.queryString.search || field.length === 0) return this;
 
     const regex = {
-      $or: field.map(field => ({
-        [field]: { $regex: this.queryString.search, $options: "i" }
-      }))
-    }
+      $or: field.map((fieldName) => ({
+        [fieldName]: new RegExp(this.queryString.search, "i"),
+      })),
+    };
 
     this.query = this.query.find(regex);
 
@@ -76,8 +76,14 @@ class APIFeatures {
   }
 
   paginate() {
-    const page = Number(this.queryString.page) || 1;
-    const limit = Number(this.queryString.limit) || 10;
+    //to avoid api abuse
+    // const page = Number(this.queryString.page) || 1;
+    const page = Math.max(1, Number(this.queryString.page) || 1);
+    // const limit = Number(this.queryString.limit) || 10;
+    const limit = Math.min(
+      Math.max(1, Number(this.queryString.limit) || 10),
+      50
+    );
     const skip = (page - 1) * limit;
 
     this.query = this.query.skip(skip).limit(limit);

@@ -5,7 +5,7 @@ import { getUsers } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
-router.get("/", protect, restrictTo("admin"), getUsers);
+router.get("/users", protect, restrictTo("admin"), getUsers);
 
 router.get("/health", (req, res) => {
   res.status(200).json({

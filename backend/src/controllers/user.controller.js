@@ -7,7 +7,7 @@ export const getUsers = asyncHandler(async (req, res, next) => {
 
   const features = new APIFeatures(baseQuery, req.query)
     .filter()
-    .search(["name","email"])
+    .search(["name", "email"])
     .sort()
     .paginate();
 
