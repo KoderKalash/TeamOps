@@ -3,7 +3,7 @@ import Task from "../models/task.models.js";
 import User from "../models/user.models.js";
 import AppError from "../utils/AppError.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import APIFeatures from "../utils/apifeatures.js";
+import APIFeatures from "../utils/apiFeatures.js";
 
 export const createTask = asyncHandler(async (req, res, next) => {
   const { projectId } = req.params; // Destructuring projectId from req.params

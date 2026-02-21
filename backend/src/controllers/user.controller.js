@@ -1,5 +1,5 @@
 import User from "../models/user.models.js";
-import APIFeatures from "../utils/apifeatures.js";
+import APIFeatures from "../utils/apiFeatures.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
 export const getUsers = asyncHandler(async (req, res, next) => {

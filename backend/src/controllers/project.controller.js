@@ -1,7 +1,7 @@
 import AppError from "../utils/AppError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import Project from "../models/project.models.js";
-import APIFeatures from "../utils/apifeatures.js";
+import APIFeatures from "../utils/apiFeatures.js";
 
 export const createProject = asyncHandler(async (req, res, next) => {
   const owner = req.user._id;
