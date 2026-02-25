@@ -4,12 +4,12 @@
   "description": "teamops backend",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "nodemon src/server.js",
     "format": "prettier --write ."
   },
   "keywords": [],
-  "author": "",
+  "author": "KoderKalash",
   "license": "ISC",
   "type": "module",
   "dependencies": {
@@ -19,6 +19,14 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.0.2",
     "nodemon": "^3.1.11",
-    "prettier": "^3.7.4"
+    "prettier": "^3.7.4",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@jest/globals": "^30.2.0",
+    "cross-env": "^10.1.0",
+    "jest": "^30.2.0",
+    "mongodb-memory-server": "^11.0.1",
+    "supertest": "^7.2.2"
   }
 }
