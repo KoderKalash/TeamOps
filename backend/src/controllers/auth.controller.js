@@ -10,7 +10,11 @@ export const register = asyncHandler(async (req, res) => {
   if (!name || !email || !password)
     throw new AppError("Credentials required", 400);
 
-  if (typeof name !== "string" || typeof email !== "string" || typeof password !== "string")
+  if (
+    typeof name !== "string" ||
+    typeof email !== "string" ||
+    typeof password !== "string"
+  )
     throw new AppError("Invalid data types", 400);
 
   if (name.trim() === "" || email.trim() === "" || password.trim() === "")
@@ -25,7 +29,11 @@ export const register = asyncHandler(async (req, res) => {
   if (await User.findOne({ email: normalizedEmail }))
     throw new AppError("Email already exists", 409);
 
-  const user = new User({ name: normalizedName, email: normalizedEmail, password });
+  const user = new User({
+    name: normalizedName,
+    email: normalizedEmail,
+    password,
+  });
 
   try {
     await user.save();

@@ -29,3 +29,6 @@ jobs:
 
       - name: Run tests
         run: npm test
+        env: 
+          JWT_SECRET: test_jwt_secret
+          JWT_EXPIRY: 1d
