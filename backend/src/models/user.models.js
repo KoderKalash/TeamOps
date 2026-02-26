@@ -38,7 +38,6 @@ userSchema.pre("save", async function () {
 userSchema.index({ name: "text", email: "text" });
 
 //sort
-userSchema.index({ email: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ createdAt: -1 });
 

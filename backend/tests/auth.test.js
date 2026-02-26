@@ -77,4 +77,9 @@ describe("Auth Routes", () => {
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("token");
   });
+
+  it("should fail accessing protected route without token",async () => {
+    const res = await request(app).get("/api/projects/");
+    expect(res.statusCode).toBe(401);
+  })
 });
