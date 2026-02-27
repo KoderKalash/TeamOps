@@ -269,6 +269,30 @@ cp .env.example .env
 npm run dev
 ```
 
+### Frontend (Next.js) quickstart
+
+This repo includes a minimal Next.js App Router frontend in `frontend/` with:
+
+- `/login`, `/signup`, `/dashboard`
+- A client-side protected route wrapper (`frontend/components/ProtectedRoute.js`)
+- A small API utility (`frontend/lib/api.js`)
+- Next.js API route proxies to the backend (avoids CORS)
+
+```bash
+# in one terminal
+cd backend
+npm install
+npm run dev
+
+# in another terminal
+cd ../frontend
+npm install
+copy .env.local.example .env.local
+npm run dev
+```
+
+Then open `http://localhost:3000`.
+
 ### Environment Variables
 
 ```env
