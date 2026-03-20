@@ -2,16 +2,16 @@
 
 # TeamOps
 
-### Project & Task Management API
+### Full-Stack Project Management Platform
 
-A production-ready REST API built with security-first principles, clean architecture, and scalable design patterns for modern team collaboration.
+Production-grade team collaboration system with secure authentication, granular authorization, and automated testing.
 
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
+[![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)](https://jestjs.io/)
 
-[Features](#features) • [Architecture](#architecture) • [Data Access](#data-access--query-layer) • [API Documentation](#api-documentation) • [Getting Started](#getting-started) • [Security](#security)
+[Features](#features) • [Architecture](#architecture) • [API Reference](#api-reference) • [Getting Started](#getting-started) • [Testing](#testing)
 
 </div>
 
@@ -19,66 +19,55 @@ A production-ready REST API built with security-first principles, clean architec
 
 ## Overview
 
-TeamOps is a **backend-only REST API** designed for project and task management. Built with a focus on data integrity, role-based access control, and secure authentication patterns, it provides a solid foundation for team collaboration platforms.
+TeamOps is a full-stack project management application demonstrating backend fundamentals expected in real product teams: JWT authentication with protected routes, role-based and ownership-based authorization, reusable query abstractions, and automated test execution in CI.
 
-### Key Highlights
-
-- **Security-First Design** — JWT authentication, bcrypt hashing, and multi-layered authorization
-- **Clean Architecture** — Modular, maintainable, and scalable codebase following best practices
-- **Scalable Query Layer** — Reusable filtering, sorting, pagination, and search using `APIFeatures`
-- **Production-Ready** — Comprehensive error handling, validation, and consistent API responses
-- **RBAC Implementation** — Granular permission system with role and ownership-based access control
+Built with Node.js + Express + MongoDB on the backend and Next.js on the frontend, with clear separation of concerns and testable architecture.
 
 ---
 
 ## Features
 
-### 🔐 Authentication & Security
+### Authentication & Security
 
-- **JWT-based authentication** with secure token management
-- **Password encryption** using industry-standard bcrypt
-- **Centralized error handling** with consistent response formats
-- **Middleware-driven protection** for all secured endpoints
+- JWT-based authentication with secure token management
+- Password hashing with bcrypt via model hooks
+- Email normalization and duplicate prevention
+- Protected routes with middleware-driven authorization
 
-### 👥 Role-Based Access Control
+### Role-Based Access Control
 
 - **Three-tier role system**: `user`, `manager`, `admin`
-- **Hybrid authorization model** combining roles and resource ownership
-- **Server-controlled permissions** preventing client-side privilege escalation
-- **Field-level access control** for sensitive operations
+- **Route-level access control** via `restrictTo()` middleware
+- **Ownership validation** for project and task mutations
+- **Field-level permissions** (e.g., users can only update task status)
 
-### 📊 Project Management
+### Projects
 
-- Full CRUD operations with role-based restrictions
-- Project ownership and membership tracking
-- Hierarchical access control (owner > admin > manager > user)
-- Automatic validation of project boundaries
-- Filtering, sorting, and pagination support
+- Full CRUD operations with role and ownership checks
+- Add members to projects (validated by user ID)
+- Query capabilities: filter, search (`name`, `description`), sort, pagination
+- Max limit enforcement (50 items per page)
 
-### 🎯 Task Management
+### Tasks
 
-- **Project-scoped tasks** with strict boundary enforcement
-- **Member-only assignment** ensuring tasks are only assigned to project members
-- **Role-aware visibility** controlling task access based on user permissions
-- **Granular update permissions** with field-level validation
-- **Safe deletion** with ownership verification
-- **Advanced querying** with filtering, sorting, pagination, and search
+- Create and list tasks scoped to projects
+- Update and delete with role-specific restrictions
+- Assignment validation (assignees must be project members)
+- Granular permission model based on user role
 
-### 👤 Member Management
+### Advanced Querying
 
-- Add and manage project members with ownership validation
-- Duplicate-prevention mechanisms
-- Server-controlled membership updates
-- Role-based member visibility
+- **Reusable query layer** with filtering, sorting, pagination, search
+- Configurable search fields per resource
+- Consistent API contract across all list endpoints
+- Performance-conscious pagination with enforced limits
 
-### 🔍 Query & Data Access
+### Automated Testing
 
-- **Reusable query layer** via `APIFeatures` utility
-- **Pagination** with configurable page size and navigation
-- **Filtering** by resource fields (e.g., status, priority, role)
-- **Sorting** by any field in ascending or descending order
-- **Search** across controller-defined searchable fields
-- **Authorization-aware queries** ensuring users only access permitted data
+- Jest + Supertest integration tests
+- In-memory MongoDB for isolated test execution
+- CI pipeline running tests on every push/PR
+- Current coverage: authentication flows (6 passing tests)
 
 ---
 
@@ -86,159 +75,102 @@ TeamOps is a **backend-only REST API** designed for project and task management.
 
 ### Tech Stack
 
-| Layer          | Technology         |
-| -------------- | ------------------ |
-| Runtime        | Node.js            |
-| Framework      | Express.js         |
-| Database       | MongoDB            |
-| ODM            | Mongoose           |
-| Authentication | JWT (jsonwebtoken) |
-| Encryption     | bcrypt             |
+**Backend:**
+- Node.js 20
+- Express 5
+- MongoDB + Mongoose 9
+- JWT (jsonwebtoken)
+- bcrypt
+- Jest + Supertest + mongodb-memory-server
+
+**Frontend:**
+- Next.js 16 (App Router)
+- React 19
+- Tailwind CSS 4
+- Next.js API routes as backend proxy
 
 ### Project Structure
-
 ```text
-src/
-├── controllers/      # Business logic and request handlers
-├── models/           # Mongoose schemas and data models
-├── routes/           # API endpoint definitions
-├── middleware/       # Authentication, authorization, and error handling
-├── utils/            # Helper functions and utilities (includes APIFeatures)
-├── app.js            # Express application configuration
-└── server.js         # Server initialization and startup
+TeamOps/
+├── backend/
+│   ├── src/
+│   │   ├── config/          # Configuration and environment
+│   │   ├── controllers/     # Request handlers and business logic
+│   │   ├── middleware/      # Auth, RBAC, error handling
+│   │   ├── models/          # Mongoose schemas
+│   │   ├── routes/          # API endpoint definitions
+│   │   ├── utils/           # Query abstractions and helpers
+│   │   ├── app.js           # Express application
+│   │   └── server.js        # Server initialization
+│   └── tests/               # Integration tests
+└── frontend/
+    ├── app/
+    │   ├── api/             # Backend proxy routes
+    │   ├── login/           # Authentication pages
+    │   ├── signup/
+    │   └── dashboard/       # Protected application pages
+    ├── components/          # React components
+    └── lib/                 # Utilities and helpers
 ```
 
 ### Authorization Model
 
-TeamOps implements a **multi-layered authorization system**:
-
-1. **Role-Based Access** — Permissions assigned based on user roles
-2. **Ownership Validation** — Resource creators maintain special privileges
-3. **Membership Verification** — Project-level access control
-4. **Field-Level Permissions** — Granular control over data mutations
-
-This architecture prevents:
-
-- Unauthorized cross-project access
-- Privilege escalation attacks
-- Unauthorized data mutations
-- Assignment of tasks to non-members
+**Multi-layered authorization:**
+1. **Route-level access** — `restrictTo()` enforces role requirements
+2. **Ownership validation** — Controllers verify resource ownership
+3. **Membership checks** — Task operations validate project membership
+4. **Field-level permissions** — Role-specific mutation rules
 
 ---
 
-## Data Access & Query Layer
-
-### Scalable Query Design
-
-TeamOps implements a **reusable query utility** (`APIFeatures`) that provides consistent, performant data access across all resources. The query layer is designed with authorization-first principles, ensuring users can only query and retrieve data they are permitted to access.
-
-### Query Capabilities
-
-#### Filtering
-
-Resources can be filtered by any field exposed in the API. Common filters include:
-
-- **Tasks**: `status`, `priority`, `assignedTo`
-- **Projects**: `status`, `owner`
-- **Users** (admin-only): `role`, `isActive`
-
-Example: `GET /api/projects/:projectId/tasks?status=in-progress&priority=high`
-
-#### Sorting
-
-Results can be sorted by any field in ascending or descending order using the `sort` query parameter.
-
-Example: `GET /api/projects/:projectId/tasks?sort=-createdAt,priority`
-
-#### Pagination
-
-All list endpoints support pagination with configurable page size:
-
-- Default: 10 items per page
-- Query params: `page`, `limit`
-- Response includes: total count, current page, total pages
-
-Example: `GET /api/projects?page=2&limit=20`
-
-#### Search
-
-Search functionality is configurable per resource. Controllers define which fields are searchable, ensuring consistent and predictable search behavior.
-
-- **Tasks**: Searchable by title and description
-- **Projects**: Searchable by name and description
-- **Users**: Searchable by name and email
-
-Example: `GET /api/projects/:projectId/tasks?search=bug fix`
-
-### Authorization-First Querying
-
-All queries are executed **after** authorization checks. This ensures:
-
-- Users only query resources they have access to
-- Filters are applied to pre-authorized datasets
-- No information leakage through query results or metadata
-- Consistent permission enforcement across all query operations
-
-### Defensive Query Handling
-
-The query layer includes defensive programming patterns:
-
-- **Input sanitization** preventing injection attacks
-- **Field whitelisting** to prevent exposure of internal fields
-- **Query complexity limits** to prevent resource exhaustion
-- **Pagination enforcement** on large datasets
-
-### Indexing Strategy
-
-MongoDB indexes are applied to frequently queried and filtered fields:
-
-- **Compound indexes** on `project + status` for task queries
-- **Single-field indexes** on `createdAt`, `updatedAt` for sorting
-- **Text indexes** on searchable fields (title, description)
-- **Unique indexes** on email and other identifying fields
-
-This indexing strategy ensures:
-
-- Sub-50ms query performance on datasets with 10k+ records
-- Efficient filtering and sorting without full collection scans
-- Scalable search across text fields
-
----
-
-## API Documentation
+## API Reference
 
 ### Authentication
 
-| Method | Endpoint           | Description                  |
-| ------ | ------------------ | ---------------------------- |
-| `POST` | `/api/auth/signup` | Create new user account      |
-| `POST` | `/api/auth/login`  | Authenticate and receive JWT |
+| Method | Endpoint  | Access | Description |
+|--------|-----------|--------|-------------|
+| `POST` | `/signup` | Public | Create new account with email/password |
+| `POST` | `/login`  | Public | Authenticate and receive JWT |
 
 ### Projects
 
-| Method   | Endpoint                           | Description              | Authorization                  | Query Support      |
-| -------- | ---------------------------------- | ------------------------ | ------------------------------ | ------------------ |
-| `POST`   | `/api/projects`                    | Create new project       | Manager, Admin                 | N/A                |
-| `GET`    | `/api/projects`                    | List accessible projects | All roles (filtered by access) | Filter, Sort, Page |
-| `PATCH`  | `/api/projects/:id`                | Update project details   | Owner, Admin                   | N/A                |
-| `DELETE` | `/api/projects/:id`                | Delete project           | Owner, Admin                   | N/A                |
-| `PATCH`  | `/api/projects/:projectId/members` | Add project members      | Owner, Admin                   | N/A                |
+| Method   | Endpoint                           | Authorization | Description |
+|----------|-----------------------------------|---------------|-------------|
+| `POST`   | `/api/projects`                   | Manager, Admin | Create new project |
+| `GET`    | `/api/projects`                   | Authenticated | List accessible projects (filtered by role/membership) |
+| `PATCH`  | `/api/projects/:id`               | Manager, Admin + Ownership | Update project details |
+| `DELETE` | `/api/projects/:id`               | Manager, Admin + Ownership | Delete project |
+| `PATCH`  | `/api/projects/:projectId/members` | Owner, Admin | Add members to project |
+
+**Query Parameters:**
+- `filter` — Filter by field values
+- `search` — Search in `name`, `description`
+- `sort` — Sort by any field
+- `page`, `limit` — Pagination (max 50/page)
 
 ### Tasks
 
-| Method   | Endpoint                         | Description            | Authorization       | Query Support              |
-| -------- | -------------------------------- | ---------------------- | ------------------- | -------------------------- |
-| `POST`   | `/api/projects/:projectId/tasks` | Create task in project | Project members     | N/A                        |
-| `GET`    | `/api/projects/:projectId/tasks` | List project tasks     | Project members     | Filter, Sort, Page, Search |
-| `PATCH`  | `/api/tasks/:taskId`             | Update task            | Role-dependent      | N/A                        |
-| `DELETE` | `/api/tasks/:taskId`             | Delete task            | Task creator, Admin | N/A                        |
+| Method   | Endpoint                         | Authorization | Description |
+|----------|----------------------------------|---------------|-------------|
+| `POST`   | `/api/projects/:projectId/tasks` | Owner, Admin | Create task in project |
+| `GET`    | `/api/projects/:projectId/tasks` | Project members | List project tasks |
+| `PATCH`  | `/api/tasks/:taskId`             | Role-dependent | Update task (field restrictions apply) |
+| `DELETE` | `/api/tasks/:taskId`             | Manager (+ ownership), Admin | Delete task |
 
 ### Users
 
-| Method | Endpoint        | Description      | Authorization | Query Support              |
-| ------ | --------------- | ---------------- | ------------- | -------------------------- |
-| `GET`  | `/api/users`    | List all users   | Admin only    | Filter, Sort, Page, Search |
-| `GET`  | `/api/users/me` | Get current user | Authenticated | N/A                        |
+| Method | Endpoint | Authorization | Description |
+|--------|----------|---------------|-------------|
+| `GET`  | `/users` | Admin only | List all users with query support |
+
+**Query Parameters:**
+- `filter`, `search` (`name`, `email`), `sort`, `page`, `limit`
+
+### Health Check
+
+| Method | Endpoint  | Access | Description |
+|--------|-----------|--------|-------------|
+| `GET`  | `/health` | Public | API health status |
 
 ---
 
@@ -247,153 +179,151 @@ This indexing strategy ensures:
 ### Prerequisites
 
 - Node.js (v16 or higher)
-- MongoDB (v5 or higher)
+- MongoDB (local or Atlas)
 - npm or yarn
 
-### Installation
-
+### Backend Setup
 ```bash
-# Clone the repository
-git clone https://github.com/KoderKalash/TeamOps.git
-
-# Navigate to project directory
+# Navigate to backend
 cd backend
 
 # Install dependencies
 npm install
 
-# Configure environment variables
+# Configure environment
 cp .env.example .env
 
 # Start development server
 npm run dev
 ```
 
-### Frontend (Next.js) quickstart
-
-This repo includes a minimal Next.js App Router frontend in `frontend/` with:
-
-- `/login`, `/signup`, `/dashboard`
-- A client-side protected route wrapper (`frontend/components/ProtectedRoute.js`)
-- A small API utility (`frontend/lib/api.js`)
-- Next.js API route proxies to the backend (avoids CORS)
-
-```bash
-# in one terminal
-cd backend
-npm install
-npm run dev
-
-# in another terminal
-cd ../frontend
-npm install
-copy .env.local.example .env.local
-npm run dev
-```
-
-Then open `http://localhost:3000`.
-
-### Environment Variables
-
+**Environment Variables** (`.env`):
 ```env
 PORT=8000
-MONGODB_URI=mongodb://localhost:27017/teamops
-JWT_SECRET=your_secure_jwt_secret
-JWT_EXPIRE=7d
-NODE_ENV=development
+MONGO_URL=your_mongo_uri
+JWT_SECRET=your_jwt_secret_key
+JWT_EXPIRY=7d
+SEARCH_STRATEGY=text
 ```
 
----
+Backend runs on `http://localhost:8000` (or configured `PORT`).
 
-## Security
+### Frontend Setup
+```bash
+# Navigate to frontend
+cd frontend
 
-### Authentication Flow
+# Install dependencies
+npm install
 
-1. User credentials are validated against encrypted database records
-2. JWT token issued with user ID and role embedded
-3. Token required for all protected endpoints
-4. Middleware validates token and extracts user context
+# Configure environment
+cp .env.local.example .env.local
 
-### Data Protection
+# Start development server
+npm run dev
+```
 
-- **Password Storage**: Bcrypt with salt rounds (10+)
-- **Token Security**: JWT with expiration and signature verification
-- **Input Validation**: Mongoose schema validation and custom middleware
-- **Error Handling**: Sanitized error messages preventing information leakage
+**Environment Variables** (`.env.local`):
+```env
+BACKEND_URL=http://localhost:8000
+```
 
-### Best Practices Implemented
+Frontend runs on `http://localhost:3000`.
 
-- ✅ No sensitive data in JWT payload
-- ✅ Password never returned in API responses
-- ✅ Role and permission checks on every protected route
-- ✅ MongoDB injection prevention via Mongoose
-- ✅ Consistent HTTP status codes and error formats
+**Note:** Frontend uses Next.js API routes (`/api/*`) to proxy requests to the backend, avoiding CORS issues and centralizing API calls.
 
 ---
 
 ## Testing
 
-### Quality Assurance
+### Backend Tests
 
-- **Manual testing** performed using Postman
-- **Role-based scenarios** validated across all user types
-- **Edge cases** tested for authorization boundaries
-- **Ownership validation** verified for all resource operations
-- **Query layer** tested for filtering, pagination, and search accuracy
-- **HTTP compliance** ensured with proper status codes
+**Framework:** Jest + Supertest  
+**Test Database:** mongodb-memory-server (in-memory MongoDB)  
+**Current Coverage:** Authentication flows (1 suite, 6 tests)
+```bash
+cd backend
+npm test
+```
 
-### Test Coverage
+**Current Status:** All tests passing
 
-- ✅ Authentication flows
-- ✅ RBAC enforcement
-- ✅ Project ownership rules
-- ✅ Task assignment validation
-- ✅ Member management boundaries
-- ✅ Query filtering and pagination
-- ✅ Error handling scenarios
+### Continuous Integration
+
+GitHub Actions workflow (`.github/workflows/test.yml`):
+- Triggers on push/PR to `main`
+- Runs on Node 20
+- Executes full backend test suite
+- Fails CI if tests don't pass
 
 ---
 
-## Roadmap
+## Scripts
+
+### Backend
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start API with nodemon (auto-reload) |
+| `npm test` | Run Jest integration tests |
+| `npm run format` | Format code with Prettier |
+
+### Frontend
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start Next.js development server |
+| `npm run build` | Production build |
+| `npm run start` | Run production server |
+| `npm run lint` | Run ESLint |
+
+---
+
+## Known Limitations & Future Work
+
+### Current Gaps
+
+- No refresh token or session rotation flow
+- No rate limiting or request throttling
+- Limited test coverage (auth only)
+- No centralized validation layer (Zod/Joi)
+- No API documentation generator (Swagger/OpenAPI)
 
 ### Planned Enhancements
 
-- [ ] **Member Removal** with task reassignment policies
-- [ ] **Activity Logs** for audit trails
-- [ ] **Real-time Notifications** using WebSocket
-- [ ] **Automated Test Suite** with Jest/Mocha
-- [ ] **API Documentation** with Swagger/OpenAPI
-- [ ] **Rate Limiting** and request throttling
-- [ ] **Frontend Integration** examples and SDKs
+**High Priority:**
+1. Request validation middleware with consistent error contracts
+2. Expand test coverage to projects/tasks authorization matrix
+3. Security middleware: Helmet, CORS policy, rate limiter
+4. OpenAPI spec + hosted documentation
+5. Refresh token flow and logout invalidation strategy
+
+**Medium Priority:**
+- Containerized local setup with `docker-compose`
+- Comprehensive negative case testing
+- Monitoring and observability setup
+- Performance benchmarking
 
 ---
 
 ## Contributing
 
-Contributions are welcome.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Create a feature branch from `main`
+2. Keep changes focused and well-tested
+3. Run backend tests before opening PR (`npm test`)
+4. Open PR with clear summary and risk assessment
+5. Ensure CI passes before requesting review
 
 ---
 
-## Support
+## License
 
-For questions, issues, or feature requests:
-
-- 🐛 Issues: [GitHub Issues](https://github.com/KoderKalash/TeamOps/issues)
+ISC License — see `backend/package.json` for details.
 
 ---
 
 <div align="center">
 
-**Built with precision. Designed for scale.**
-
-Made with ❤️ for modern development teams
+**Built with clean architecture. Designed for maintainability.**
 
 </div>
