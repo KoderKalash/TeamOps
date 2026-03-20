@@ -7,14 +7,20 @@ import projectTask from "./routes/projectTask.route.js";
 import userRoute from "./routes/user.route.js";
 import errorMiddleware from "./middleware/error.middleware.js";
 import limiter from "./middleware/globalLimiter.middleware.js";
+import helmet from 'helmet'
+import cors from 'cors'
 
 const app = express();
 
 app.set("trust proxy", 1); //trust proxy
 
-
 app.use(express.json());
-app.use("/api",limiter) //global limiter only to '/api' routes
+app.use(helmet()); 
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true
+}))
+app.use("/api",limiter)
 app.use(health);
 app.use(authRoutes);
 app.use("/api/projects", projectRoutes);

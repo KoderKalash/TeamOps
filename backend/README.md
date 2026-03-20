@@ -72,6 +72,13 @@ RESTful API for TeamOps demonstrating authentication, role-based access control,
 - GitHub Actions workflow running tests on every push/PR
 - Current coverage: authentication flows
 
+### Security Middleware
+
+- `helmet()` for secure HTTP headers
+- `cors()` with configured frontend origin
+- Global API rate limiter on `/api/*`
+- Stricter auth limiter on `/signup` and `/login`
+
 ---
 
 ## Project Structure
@@ -198,6 +205,7 @@ MONGO_URL=your_mongo_uri
 JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRY=7d
 SEARCH_STRATEGY=text
+CORS_ORIGIN=http://localhost:3000
 ```
 
 ### Running the Application
@@ -284,6 +292,9 @@ GitHub Actions workflow (`.github/workflows/test.yml`):
 - Passwords never returned in API responses
 - MongoDB injection prevention via Mongoose
 - Consistent error messages preventing information leakage
+- Helmet security headers enabled
+- CORS policy configured for allowed frontend origin
+- Request throttling enabled via express-rate-limit
 
 ---
 
