@@ -33,6 +33,9 @@ Built with Node.js + Express + MongoDB on the backend and Next.js on the fronten
 - Password hashing with bcrypt via model hooks
 - Email normalization and duplicate prevention
 - Protected routes with middleware-driven authorization
+- Security headers via Helmet
+- Configured CORS policy for frontend origin control
+- Layered rate limiting (global API limiter + stricter auth limiter)
 
 ### Role-Based Access Control
 
@@ -81,6 +84,8 @@ Built with Node.js + Express + MongoDB on the backend and Next.js on the fronten
 - MongoDB + Mongoose 9
 - JWT (jsonwebtoken)
 - bcrypt
+- Helmet + CORS
+- express-rate-limit
 - Jest + Supertest + mongodb-memory-server
 
 **Frontend:**
@@ -204,6 +209,7 @@ MONGO_URL=your_mongo_uri
 JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRY=7d
 SEARCH_STRATEGY=text
+CORS_ORIGIN=http://localhost:3000
 ```
 
 Backend runs on `http://localhost:8000` (or configured `PORT`).
@@ -284,7 +290,6 @@ GitHub Actions workflow (`.github/workflows/test.yml`):
 ### Current Gaps
 
 - No refresh token or session rotation flow
-- No rate limiting or request throttling
 - Limited test coverage (auth only)
 - No centralized validation layer (Zod/Joi)
 - No API documentation generator (Swagger/OpenAPI)
@@ -294,7 +299,7 @@ GitHub Actions workflow (`.github/workflows/test.yml`):
 **High Priority:**
 1. Request validation middleware with consistent error contracts
 2. Expand test coverage to projects/tasks authorization matrix
-3. Security middleware: Helmet, CORS policy, rate limiter
+3. Audit logging and monitoring/observability baseline
 4. OpenAPI spec + hosted documentation
 5. Refresh token flow and logout invalidation strategy
 
