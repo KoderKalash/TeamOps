@@ -81,6 +81,20 @@ RESTful API for TeamOps demonstrating authentication, role-based access control,
 
 ---
 
+## Performance Benchmarks (Live Render)
+
+Benchmarks were run against the live deployment (`https://teamops.onrender.com`) on a seeded 10K-task dataset using `autocannon` with 10-second windows and concurrency ramp (1 -> 10 -> 50).
+
+- Improved `GET /api/projects` at 10 concurrency: **p99 4570ms -> 2668ms (41.62% better)** and **5.8 -> 8.81 req/s (51.9% higher throughput)** after index optimization.
+- Improved heavy endpoint `GET /api/projects/:projectId/tasks` at 1 concurrency: **p99 1689ms -> 1206ms (28.6% better)** and **0.9 -> 1.6 req/s (77.78% higher throughput)**.
+- Improved `GET /api/projects/:projectId/tasks` at 10 concurrency: **15.2 -> 20.5 req/s (34.87% gain)** with **p99 1168ms -> 1131ms**.
+- Reached **131.5 req/s** on `GET /api/projects/:projectId/tasks` at 50 concurrency in optimized run.
+- Auth microbench (security/perf): **bcrypt (10 rounds) 93.35ms/hash**, **JWT sign 0.6575ms/op**, **JWT verify 0.6654ms/op** over 1000 iterations.
+
+Note: Some high-concurrency runs include non-2xx responses due to rate limiting and live-platform variance; raw benchmark artifacts are kept out of source control.
+
+---
+
 ## Project Structure
 ```text
 backend/
