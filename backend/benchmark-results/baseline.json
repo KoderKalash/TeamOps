@@ -1,0 +1,216 @@
+{
+  "phase": "baseline",
+  "baseUrl": "https://teamops.onrender.com",
+  "tag": "teamops_bench_v1",
+  "timestamp": "2026-05-02T12:24:20.604Z",
+  "authUserEmail": "bench.user.teamops_bench_v1@teamops.dev",
+  "authPathUsed": "/login",
+  "apiPrefixUsed": "/api",
+  "projectIdUsed": "69f5ec0401f5442b19d90ee7",
+  "endpoints": [
+    {
+      "endpoint": "GET /api/projects",
+      "key": "projects_list",
+      "type": "crud",
+      "method": "GET",
+      "path": "/api/projects?sort=-createdAt&limit=20&page=1",
+      "byConcurrency": [
+        {
+          "connections": 1,
+          "latencyMs": {
+            "p50": 895,
+            "p95": null,
+            "p99": 1200
+          },
+          "requestsPerSec": 1.11,
+          "throughputBytesPerSec": 11453.2,
+          "totalErrors": 0,
+          "non2xx": 0,
+          "timeouts": 0,
+          "durationSeconds": 10,
+          "heapBeforeMB": 12.08,
+          "heapAfterMB": 13.35,
+          "heapGrowthMB": 1.27
+        },
+        {
+          "connections": 10,
+          "latencyMs": {
+            "p50": 1121,
+            "p95": null,
+            "p99": 4570
+          },
+          "requestsPerSec": 5.8,
+          "throughputBytesPerSec": 60405.6,
+          "totalErrors": 0,
+          "non2xx": 0,
+          "timeouts": 0,
+          "durationSeconds": 10,
+          "heapBeforeMB": 13.36,
+          "heapAfterMB": 12.72,
+          "heapGrowthMB": -0.64
+        },
+        {
+          "connections": 50,
+          "latencyMs": {
+            "p50": 2178,
+            "p95": null,
+            "p99": 4386
+          },
+          "requestsPerSec": 18.4,
+          "throughputBytesPerSec": 191609.2,
+          "totalErrors": 0,
+          "non2xx": 0,
+          "timeouts": 0,
+          "durationSeconds": 10,
+          "heapBeforeMB": 12.72,
+          "heapAfterMB": 13.07,
+          "heapGrowthMB": 0.35
+        }
+      ],
+      "degradation": {
+        "p95_10_to_50_ratio": null,
+        "significant": null
+      }
+    },
+    {
+      "endpoint": "GET /api/projects/:projectId/tasks",
+      "key": "tasks_by_project",
+      "type": "heavy_db",
+      "method": "GET",
+      "path": "/api/projects/69f5ec0401f5442b19d90ee7/tasks?status=todo&priority=high&sort=-createdAt&limit=20&page=1",
+      "byConcurrency": [
+        {
+          "connections": 1,
+          "latencyMs": {
+            "p50": 980,
+            "p95": null,
+            "p99": 1689
+          },
+          "requestsPerSec": 0.9,
+          "throughputBytesPerSec": 1089.91,
+          "totalErrors": 0,
+          "non2xx": 0,
+          "timeouts": 0,
+          "durationSeconds": 10,
+          "heapBeforeMB": 13.08,
+          "heapAfterMB": 13.41,
+          "heapGrowthMB": 0.33
+        },
+        {
+          "connections": 10,
+          "latencyMs": {
+            "p50": 427,
+            "p95": null,
+            "p99": 1168
+          },
+          "requestsPerSec": 15.2,
+          "throughputBytesPerSec": 18679.6,
+          "totalErrors": 0,
+          "non2xx": 79,
+          "timeouts": 0,
+          "durationSeconds": 10,
+          "heapBeforeMB": 13.42,
+          "heapAfterMB": 13.49,
+          "heapGrowthMB": 0.07
+        },
+        {
+          "connections": 50,
+          "latencyMs": {
+            "p50": 326,
+            "p95": null,
+            "p99": 1026
+          },
+          "requestsPerSec": 124.4,
+          "throughputBytesPerSec": 155014.4,
+          "totalErrors": 0,
+          "non2xx": 1244,
+          "timeouts": 0,
+          "durationSeconds": 10,
+          "heapBeforeMB": 13.49,
+          "heapAfterMB": 15.06,
+          "heapGrowthMB": 1.57
+        }
+      ],
+      "degradation": {
+        "p95_10_to_50_ratio": null,
+        "significant": null
+      }
+    },
+    {
+      "endpoint": "POST /login",
+      "key": "auth_login",
+      "type": "auth",
+      "method": "POST",
+      "path": "/login",
+      "byConcurrency": [
+        {
+          "connections": 1,
+          "latencyMs": {
+            "p50": 856,
+            "p95": null,
+            "p99": 1001
+          },
+          "requestsPerSec": 1.2,
+          "throughputBytesPerSec": 1621.4,
+          "totalErrors": 0,
+          "non2xx": 1,
+          "timeouts": 0,
+          "durationSeconds": 10,
+          "heapBeforeMB": 15.06,
+          "heapAfterMB": 11.59,
+          "heapGrowthMB": -3.48
+        },
+        {
+          "connections": 10,
+          "latencyMs": {
+            "p50": 315,
+            "p95": null,
+            "p99": 2360
+          },
+          "requestsPerSec": 26.7,
+          "throughputBytesPerSec": 33224,
+          "totalErrors": 0,
+          "non2xx": 262,
+          "timeouts": 0,
+          "durationSeconds": 10,
+          "heapBeforeMB": 11.59,
+          "heapAfterMB": 12.06,
+          "heapGrowthMB": 0.47
+        },
+        {
+          "connections": 50,
+          "latencyMs": {
+            "p50": 330,
+            "p95": null,
+            "p99": 2132
+          },
+          "requestsPerSec": 92.4,
+          "throughputBytesPerSec": 114769.6,
+          "totalErrors": 0,
+          "non2xx": 924,
+          "timeouts": 0,
+          "durationSeconds": 10,
+          "heapBeforeMB": 12.06,
+          "heapAfterMB": 13.73,
+          "heapGrowthMB": 1.66
+        }
+      ],
+      "degradation": {
+        "p95_10_to_50_ratio": null,
+        "significant": null
+      }
+    }
+  ],
+  "authMicro": {
+    "bcrypt": {
+      "rounds": 10,
+      "iterations": 30,
+      "avgMsPerHash": 94.7
+    },
+    "jwt": {
+      "iterations": 1000,
+      "avgMsPerSign": 0.8408,
+      "avgMsPerVerify": 0.7982
+    }
+  }
+}

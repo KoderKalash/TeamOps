@@ -7,11 +7,16 @@ dotenv.config();
 const PORT = process.env.PORT;
 
 const server = async () => {
-  await dbConnect();
+  try {
+    await dbConnect();
 
-  app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT}`);
-  });
+    app.listen(PORT, () => {
+      console.log(`Server is running on ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Server startup failed:", error.message);
+    process.exit(1);
+  }
 };
 
 server();

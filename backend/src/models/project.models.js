@@ -29,6 +29,8 @@ projectSchema.index({ name: "text", description: "text" }); //check for search
 
 //sort
 projectSchema.index({ createdAt: -1 });
+projectSchema.index({ owner: 1, createdAt: -1 });
+projectSchema.index({ members: 1, createdAt: -1 });
 
 const Project = mongoose.model("Project", projectSchema);
 

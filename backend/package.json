@@ -6,7 +6,10 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "nodemon src/server.js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "seed:bench": "node scripts/seed.js",
+    "bench:baseline": "cross-env BENCH_PHASE=baseline node scripts/benchmark.js",
+    "bench:optimized": "cross-env BENCH_PHASE=optimized node scripts/benchmark.js"
   },
   "keywords": [],
   "author": "KoderKalash",
@@ -27,6 +30,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
+    "autocannon": "^8.0.0",
     "cross-env": "^10.1.0",
     "jest": "^30.2.0",
     "mongodb-memory-server": "^11.0.1",
