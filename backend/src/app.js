@@ -21,7 +21,6 @@ app.use(cors({
     credentials: true
 }))
 app.use("/api",limiter)
-app.use(health);
 app.use(authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
